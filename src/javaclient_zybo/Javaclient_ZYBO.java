@@ -27,7 +27,7 @@ public class Javaclient_ZYBO {
         // VÆLGER PORT.
         SerialPort ports[] = SerialPort.getCommPorts();
         
-        /*
+        
         System.out.println("Vælg en COM port: ");
         int i = 1;
         for(SerialPort port : ports){
@@ -38,9 +38,9 @@ public class Javaclient_ZYBO {
         int valg= 0;
         valg = tastatur.nextInt();
         port = ports[valg - 1];
-        */
         
-        Scanner tastatur = new Scanner(System.in);
+        
+        //Scanner tastatur = new Scanner(System.in);
         port = ports[1];
         
         // Opsætter port

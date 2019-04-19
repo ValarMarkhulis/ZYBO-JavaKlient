@@ -60,7 +60,6 @@ public class Javaclient_GUI {
         //Sæt ScrollPanel sammen med beskeder_in
         jScrollPane1.setViewportView(beskeder_in);
 
-
         DefaultCaret caret = (DefaultCaret) beskeder_in.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
@@ -100,7 +99,7 @@ public class Javaclient_GUI {
                                         .addComponent(sendknap))
                                 .addGap(14, 14, 14))
         );
-        
+
         vindue.pack();
 
         //Sæt send knappen som knappen der bliver trykket på når man trykker "Enter"
@@ -110,7 +109,6 @@ public class Javaclient_GUI {
         SerialPort ports[] = SerialPort.getCommPorts();
 
 //</editor-fold>
-        
 // Find alle COM portene der er tilsluttede
         for (int i = 0; i < ports.length; i++) {
             portlist.addItem(ports[i].getSystemPortName());
@@ -131,7 +129,7 @@ public class Javaclient_GUI {
                         portlist.setEnabled(false);
                         valgteport.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
                         in = valgteport.getInputStream();
-                        
+
 
                         /* Thread der står og modtager karaktere og indsætter dem i textboksen. Den kører sålænge, at knappen
                         viser afbryd*/
@@ -143,50 +141,50 @@ public class Javaclient_GUI {
                                 while (tilslutknap.getText().equals("Afbryd")) {
                                     try {
                                         Thread.sleep(50);
-                                        
+
                                         //Læs så længe at der er data at læse
                                         while (in.available() != 0) {
-                                            char karakter = (char)in.read();
+                                            char karakter = (char) in.read();
                                             //System.out.print(karakter); 
-                                            if(karakter < 32){
-                                                if(karakter == 13){
-                                                    System.out.println("modB indeholder: \""+ModtagetBesked+"\"");
-                                                    
-                                                    /****************************************************
-                                                     * Man kan ikke få '\n' med når man arbejder og kører det fra NETBEANS!!!!!
-                                                     *  Så her er den linje til at få mellemrum med:
-                                                     * ModtagetBesked = ModtagetBesked.concat("\n");
-                                                     * 
-                                                     * TIL TEST AF SENDE på fpga: 
-                                                     * while true; do sleep 1; echo 'test';done
-                                                     * 
-                                                     * 
-                                                     * 
-                                                     * 
-                                                     * 
-                                                     * 
-                                                     * 
-                                                     ************************************************/
-                                                    
+                                            if (karakter < 32) {
+                                                if (karakter == 13) {
+                                                    System.out.println("modB indeholder: \"" + ModtagetBesked + "\"");
+
+                                                    /**
+                                                     * **************************************************
+                                                     * Man kan ikke få '\n' med når man arbejder og kører det fra NETBEANS!!!!! Så her er den linje til at få mellemrum med: ModtagetBesked = ModtagetBesked.concat("\n");
+                                                     *
+                                                     * TIL TEST AF SENDE på fpga: while true; do sleep 1; echo 'test';done
+                                                     *
+                                                     *
+                                                     *
+                                                     *
+                                                     *
+                                                     *
+                                                     *
+                                                     ***********************************************
+                                                     */
+                                                    ModtagetBesked = ModtagetBesked.concat("\n");
                                                     beskeder_in.append(ModtagetBesked);
+
                                                     beskeder_in.setCaretPosition(beskeder_in.getDocument().getLength());
                                                     ModtagetBesked = "";
                                                 }
-                                                
-                                            }else{
+
+                                            } else {
                                                 ModtagetBesked += karakter;
                                             }
                                         }
 
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                    } 
+                                    }
                                 }
                             }
                         };
                         thread_modtag.start();
-                        
-                    }else { // Hvis porten ikke kan åbnes
+
+                    } else { // Hvis porten ikke kan åbnes
                         try {
                             throw new Exception("Porten kunne ikke åbnes korrekt, prøv igen!");
                         } catch (Exception ex) {
@@ -194,12 +192,12 @@ public class Javaclient_GUI {
                         }
                     }
                 } else {
-                        //Afbryd forbindelsen med COM porten
-                        System.out.println("\nPorten blev lukket!");
-                        valgteport.closePort();
-                        tilslutknap.setText("Tilslut");
-                        portlist.setEnabled(true);
-                    }
+                    //Afbryd forbindelsen med COM porten
+                    System.out.println("\nPorten blev lukket!");
+                    valgteport.closePort();
+                    tilslutknap.setText("Tilslut");
+                    portlist.setEnabled(true);
+                }
             }
         });
 
@@ -309,7 +307,6 @@ public class Javaclient_GUI {
                 e.printStackTrace();
             }
         }
-*/
-
+         */
     }
 }
