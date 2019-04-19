@@ -11,7 +11,10 @@ import java.awt.event.MouseListener;
 import java.io.InputStream;
 import java.io.OutputStream;
 import static Program.MySerialPort.ZYBO_port;
+import com.fazecast.jSerialComm.SerialPortDataListener;
 import java.awt.BorderLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -53,10 +56,37 @@ public class Program {
         }
         login_page.ZYBOConnected();
 
+        Program_page program_page = new Program_page();
+
+        Thread thread;
+        thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        while (mySerialPort.ZYBO_port.bytesAvailable() == 0) {
+                            Thread.sleep(20);
+                        }
+
+                        byte[] readBuffer = new byte[mySerialPort.ZYBO_port.bytesAvailable()];
+                        int numRead = mySerialPort.ZYBO_port.readBytes(readBuffer, readBuffer.length);
+                        System.out.println("Read " + numRead + " bytes.");
+                        String temp_string = new String(readBuffer);
+                        System.out.println("Modtaget: \"" + temp_string + "\"");
+                        program_page.updateText(new String(readBuffer));
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        thread.start();
+
         //Do login
         System.out.println("Skifter vindue");
 
-        Program_page program_page = new Program_page();
         vindue.getContentPane().removeAll();
         vindue.getContentPane().add(program_page);
         vindue.pack();
@@ -64,10 +94,8 @@ public class Program {
 
 }
 
-
-
 /*
-Test script for ZYBO LINUX
+Test script for ZYBO LINUX, det skal køres med "sh ./test.sh". Husk at chmod +x den først
 #!/bin/bash
 
 while true
@@ -84,4 +112,4 @@ do
 
 
 done
-*/
+ */
