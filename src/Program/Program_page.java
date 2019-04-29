@@ -6,6 +6,12 @@
 package Program;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,12 +24,19 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class Program_page extends javax.swing.JPanel {
 
+    private MySerialPort mySerialPort;
+
     /**
      * Creates new form Program_page
      */
     public Program_page() {
+        
+    }
+
+    public Program_page(MySerialPort mySerialPort) {
         initComponents();
         addTab();
+        this.mySerialPort = mySerialPort;
     }
 
     /**
@@ -35,26 +48,156 @@ public class Program_page extends javax.swing.JPanel {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jButton0_sendPredefiendText = new javax.swing.JButton();
+        jButton1_sendPredefiendText = new javax.swing.JButton();
+        jButton2_sendPredefiendText = new javax.swing.JButton();
+        jButton3_sendPredefiendText = new javax.swing.JButton();
+        jButton_sendText = new javax.swing.JButton();
+        jTextField_ZYBOMessage = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField_CMD3_text = new javax.swing.JTextField();
+        jLabel_cmd2_returnString = new javax.swing.JLabel();
+        jLabel_CMD1_returnstring = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField_CMD2_text1 = new javax.swing.JTextField();
+        jLabel_cmd3_returnString = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_Tab2 = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+
+        jButton0_sendPredefiendText.setText("Send testbesked til ZYBO");
+        jButton0_sendPredefiendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton0_sendPredefiendTextActionPerformed(evt);
+            }
+        });
+
+        jButton1_sendPredefiendText.setText("Send Kommando 1 til ZYBO");
+        jButton1_sendPredefiendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1_sendPredefiendTextActionPerformed(evt);
+            }
+        });
+
+        jButton2_sendPredefiendText.setText("Send Kommando 2 til ZYBO");
+        jButton2_sendPredefiendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2_sendPredefiendTextActionPerformed(evt);
+            }
+        });
+
+        jButton3_sendPredefiendText.setText("Send Kommando 3 til ZYBO");
+        jButton3_sendPredefiendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3_sendPredefiendTextActionPerformed(evt);
+            }
+        });
+
+        jButton_sendText.setText("Send valgfri tekst til ZYBO");
+        jButton_sendText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_sendTextActionPerformed(evt);
+            }
+        });
+
+        jTextField_ZYBOMessage.setText("lol");
+        jTextField_ZYBOMessage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_ZYBOMessageActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Returner et pseudo-random tal");
+
+        jLabel4.setText("Send tekst streng til kryptering:");
+
+        jTextField_CMD3_text.setToolTipText("\"Tekst streng\"");
+
+        jLabel_cmd2_returnString.setText("Retur værdi");
+
+        jLabel_CMD1_returnstring.setText("Retur værdi");
+
+        jLabel5.setText("Send tekst streng til dekryptering:");
+
+        jTextField_CMD2_text1.setToolTipText("\"Tekst streng\"");
+
+        jLabel_cmd3_returnString.setText("Retur værdi");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3_sendPredefiendText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1_sendPredefiendText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2_sendPredefiendText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField_ZYBOMessage)
+                    .addComponent(jButton0_sendPredefiendText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton_sendText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField_CMD2_text1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_CMD3_text, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_cmd2_returnString)
+                    .addComponent(jLabel_CMD1_returnstring)
+                    .addComponent(jLabel_cmd3_returnString))
+                .addGap(153, 153, 153))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 511, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jButton0_sendPredefiendText)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1_sendPredefiendText)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_CMD1_returnstring))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2_sendPredefiendText)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel_cmd2_returnString)
+                    .addComponent(jTextField_CMD2_text1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3_sendPredefiendText)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField_CMD3_text, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_cmd3_returnString))
+                .addGap(18, 18, 18)
+                .addComponent(jTextField_ZYBOMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_sendText)
+                .addContainerGap(217, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel1);
 
         jTextArea_Tab2.setColumns(20);
         jTextArea_Tab2.setRows(5);
+        jTextArea_Tab2.setEnabled(false);
         jScrollPane1.setViewportView(jTextArea_Tab2);
+
+        jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 255, 102));
+        jLabel1.setText("Data modtaget fra ZYBO boardet");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -62,15 +205,19 @@ public class Program_page extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab2", jPanel2);
@@ -86,6 +233,30 @@ public class Program_page extends javax.swing.JPanel {
             .addComponent(jTabbedPane1)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField_ZYBOMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_ZYBOMessageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_ZYBOMessageActionPerformed
+
+    private void jButton_sendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendTextActionPerformed
+        sendZybomessage(4);
+    }//GEN-LAST:event_jButton_sendTextActionPerformed
+
+    private void jButton3_sendPredefiendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3_sendPredefiendTextActionPerformed
+        sendZybomessage(3);
+    }//GEN-LAST:event_jButton3_sendPredefiendTextActionPerformed
+
+    private void jButton2_sendPredefiendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2_sendPredefiendTextActionPerformed
+        sendZybomessage(2);
+    }//GEN-LAST:event_jButton2_sendPredefiendTextActionPerformed
+
+    private void jButton1_sendPredefiendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1_sendPredefiendTextActionPerformed
+        sendZybomessage(1);
+    }//GEN-LAST:event_jButton1_sendPredefiendTextActionPerformed
+
+    private void jButton0_sendPredefiendTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton0_sendPredefiendTextActionPerformed
+        sendZybomessage(0);
+    }//GEN-LAST:event_jButton0_sendPredefiendTextActionPerformed
 
     void addTab() {
         XYSeries dataset01 = new XYSeries("X koordinaterne ");
@@ -106,14 +277,85 @@ public class Program_page extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton0_sendPredefiendText;
+    private javax.swing.JButton jButton1_sendPredefiendText;
+    private javax.swing.JButton jButton2_sendPredefiendText;
+    private javax.swing.JButton jButton3_sendPredefiendText;
+    private javax.swing.JButton jButton_sendText;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel_CMD1_returnstring;
+    private javax.swing.JLabel jLabel_cmd2_returnString;
+    private javax.swing.JLabel jLabel_cmd3_returnString;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea_Tab2;
+    private javax.swing.JTextField jTextField_CMD2_text1;
+    private javax.swing.JTextField jTextField_CMD3_text;
+    private javax.swing.JTextField jTextField_ZYBOMessage;
     // End of variables declaration//GEN-END:variables
 
     void updateText(String update_string) {
         jTextArea_Tab2.append(update_string);
+    }
+
+    private void sendZybomessage(int message_id) {
+        //Make a new thread, because the GUI thread should not hang in a I/O call
+        Thread thread;
+        thread = new Thread() {
+            @Override
+            public void run() {
+                String besked = "hej_ZYBO\n";
+                switch(message_id){
+                    case 0: 
+                        break;
+                    case 1:
+                        besked = "rando_"+new Date().getSeconds()+"\n";
+                        break;
+                    case 2:
+                        //Replace space with '~', because the ZYBO
+                        // can't recieve strings with whitespaces..
+                        // C is wonderful
+                        besked = "krypt_"+jTextField_CMD2_text1.getText().replace(' ', '~')+"\n";
+                        break;
+                    case 3:
+                        besked = "dkryp_TEST####\n";
+                        break;
+                    case 4:
+                        besked = jTextField_ZYBOMessage.getText()+"\n";
+                        break;
+                    default:
+                        System.err.println("Ugyldigt message_id: "+message_id);
+
+                }
+                OutputStream out = mySerialPort.ZYBO_port.getOutputStream();
+                InputStream in = mySerialPort.ZYBO_port.getInputStream();
+
+                try {
+                    byte[] buffer = besked.getBytes("ISO-8859-1");
+                    mySerialPort.ZYBO_port.writeBytes(buffer, besked.length());
+
+                    out.flush();
+
+                    Thread.sleep(1000);
+
+                    while (in.available() != 0) {
+                        char karakter = (char) in.read();
+                        if (karakter == 13) {
+                            //in.read();
+                            break;
+                        }
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(Program_page.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        };
+        thread.start();
     }
 }

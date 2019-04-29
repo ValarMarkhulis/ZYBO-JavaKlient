@@ -6,5 +6,11 @@
             <file>file:/home/chris/NetBeansProjects/Javaclient_ZYBO/src/javaclient_zybo/Javaclient_ZYBO.java</file>
             <file>file:/home/chris/NetBeansProjects/Javaclient_ZYBO/src/javaclient_zybo/Javaclient_GUI.java</file>
         </group>
+        <group name="Old">
+            <file>file:/C:/Users/chris/OneDrive/Dokumenter/Netbeans/ZYBO-JavaKlient/src/Program/Login_page.java</file>
+            <file>file:/C:/Users/chris/OneDrive/Dokumenter/Netbeans/ZYBO-JavaKlient/src/Program/Program_page.java</file>
+            <file>file:/C:/Users/chris/OneDrive/Dokumenter/Netbeans/ZYBO-JavaKlient/src/Program/MySerialPort.java</file>
+            <file>file:/C:/Users/chris/OneDrive/Dokumenter/Netbeans/ZYBO-JavaKlient/src/Program/Program.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -79,6 +79,11 @@ public class Login_page extends javax.swing.JPanel {
         ZYBO_connected.setText("Status:forsøger at forbinde..");
 
         PortList.setEnabled(false);
+        PortList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                PortListMousePressed(evt);
+            }
+        });
         PortList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PortListActionPerformed(evt);
@@ -178,12 +183,7 @@ public class Login_page extends javax.swing.JPanel {
 
     private void PortListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PortListActionPerformed
         // TODO add your handling code here:
-        if (mySerialPort == null) {
-            System.out.println("mySerialPort er ikke defineret! Den giver null!");
-            return;
-        } else {
-            mySerialPort.updatePorts();
-        }
+
 
     }//GEN-LAST:event_PortListActionPerformed
 
@@ -199,6 +199,21 @@ public class Login_page extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton_loginActionPerformed
+
+    private void PortListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PortListMousePressed
+         // TODO add your handling code here:
+        if (mySerialPort == null) {
+            System.out.println("mySerialPort er ikke defineret! Den giver null!");
+            return;
+        } else {
+            System.out.println("Jeg bliver kaldt!");
+            mySerialPort.updatePorts();
+            PortList.removeAllItems();
+            for (int i = 0; i < mySerialPort.ports.length; i++) {
+                PortList.addItem(mySerialPort.ports[i].getSystemPortName());
+            }
+        }
+    }//GEN-LAST:event_PortListMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import static Program.MySerialPort.ZYBO_port;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import java.awt.BorderLayout;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -32,7 +33,7 @@ public class Program {
         JFrame vindue = new JFrame("Program");
         Login_page login_page = new Login_page();
         vindue.add(login_page);
-        vindue.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        vindue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         vindue.setSize(500, 300);
         vindue.setVisible(true);
         // VÆLGER PORT.
@@ -56,7 +57,7 @@ public class Program {
         }
         login_page.ZYBOConnected();
 
-        Program_page program_page = new Program_page();
+        Program_page program_page = new Program_page(mySerialPort);
 
         Thread thread;
         thread = new Thread() {

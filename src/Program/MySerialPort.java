@@ -41,11 +41,12 @@ class MySerialPort {
 
                 OutputStream out = port.getOutputStream();
                 InputStream in = port.getInputStream();
-                String besked = "hello\n";
+                String besked = "hej_ZYBO\n";
                 byte[] buffer = besked.getBytes("ISO-8859-1");
                 port.writeBytes(buffer, besked.length());
                 out.flush();
                 Thread.sleep(1000);
+                /*
                 while (in.available() != 0) {
                     char karakter = (char) in.read();
                     if (karakter == 13) {
@@ -53,19 +54,25 @@ class MySerialPort {
                         break;
                     }
                 }
+*/
 
                 String modtaget_besked = "";
                 while (in.available() != 0) {
                     char karakter = (char) in.read();
+                    if (karakter == 13) {
+                        break;
+                    }
                     modtaget_besked = modtaget_besked.concat(karakter + "");
                 }
-                System.out.println("Beskeden var \"" + modtaget_besked + "\".");
+                System.out.println("Beskeden var \"" + modtaget_besked.trim()+ "\".");
 
-                if (modtaget_besked.equals("hello from Zybo")) {
+                if (modtaget_besked.trim().equals("hello from Zybo")) {
                     //We have found the correct port with a ZYBO board connected
                     ZYBO_port = port;
                     connected = true;
                     System.out.println("The port is found!");
+                }else{
+                    System.out.println("The port was found, but the wrong message was recieved");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -95,11 +102,12 @@ class MySerialPort {
 
             OutputStream out = test_port.getOutputStream();
             InputStream in = test_port.getInputStream();
-            String besked = "hello\n";
+            String besked = "hej_ZYBO\n";
             byte[] buffer = besked.getBytes("ISO-8859-1");
             test_port.writeBytes(buffer, besked.length());
             out.flush();
             Thread.sleep(1000);
+            /*
             while (in.available() != 0) {
                 char karakter = (char) in.read();
                 if (karakter == 13) {
@@ -107,15 +115,19 @@ class MySerialPort {
                     break;
                 }
             }
+            */
 
             String modtaget_besked = "";
             while (in.available() != 0) {
                 char karakter = (char) in.read();
+                if (karakter == 13) {
+                    break;
+                }
                 modtaget_besked = modtaget_besked.concat(karakter + "");
             }
-            System.out.println("Beskeden var \"" + modtaget_besked + "\".");
+            System.out.println("Beskeden var \"" + modtaget_besked.trim() + "\".");
 
-            if (modtaget_besked.equals("hello from Zybo")) {
+            if (modtaget_besked.trim().equals("hello from Zybo")) {
                 //We have found the correct port with a ZYBO board connected
                 ZYBO_port = test_port;
                 connected = true;

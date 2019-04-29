@@ -42,15 +42,169 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="846" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jButton3_sendPredefiendText" max="32767" attributes="0"/>
+                          <Component id="jButton1_sendPredefiendText" max="32767" attributes="0"/>
+                          <Component id="jButton2_sendPredefiendText" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jTextField_ZYBOMessage" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton0_sendPredefiendText" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jButton_sendText" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel3" min="-2" pref="181" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jTextField_CMD2_text1" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="jTextField_CMD3_text" min="-2" pref="120" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel_cmd2_returnString" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_CMD1_returnstring" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_cmd3_returnString" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="511" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                      <Component id="jButton0_sendPredefiendText" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton1_sendPredefiendText" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel3" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jLabel_CMD1_returnstring" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton2_sendPredefiendText" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel4" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jLabel_cmd2_returnString" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField_CMD2_text1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton3_sendPredefiendText" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel5" alignment="3" max="32767" attributes="0"/>
+                          <Component id="jTextField_CMD3_text" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel_cmd3_returnString" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jTextField_ZYBOMessage" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButton_sendText" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="217" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JButton" name="jButton0_sendPredefiendText">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send testbesked til ZYBO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton0_sendPredefiendTextActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton1_sendPredefiendText">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send Kommando 1 til ZYBO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1_sendPredefiendTextActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton2_sendPredefiendText">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send Kommando 2 til ZYBO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2_sendPredefiendTextActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton3_sendPredefiendText">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send Kommando 3 til ZYBO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3_sendPredefiendTextActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_sendText">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send valgfri tekst til ZYBO"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_sendTextActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField_ZYBOMessage">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="lol"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_ZYBOMessageActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Returner et pseudo-random tal"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send tekst streng til kryptering:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField_CMD3_text">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="&quot;Tekst streng&quot;"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_cmd2_returnString">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Retur v&#xe6;rdi"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_CMD1_returnstring">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Retur v&#xe6;rdi"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel5">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Send tekst streng til dekryptering:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jTextField_CMD2_text1">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="&quot;Tekst streng&quot;"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel_cmd3_returnString">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Retur v&#xe6;rdi"/>
+              </Properties>
+            </Component>
+          </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Constraints>
@@ -64,15 +218,57 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="846" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="768" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="511" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="443" max="-2" attributes="0"/>
+                      <EmptySpace pref="18" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JTextArea" name="jTextArea_Tab2">
+                  <Properties>
+                    <Property name="columns" type="int" value="20"/>
+                    <Property name="rows" type="int" value="5"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="sansserif" size="18" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="66" green="ff" red="66" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Data modtaget fra ZYBO boardet"/>
+              </Properties>
+            </Component>
+          </SubComponents>
         </Container>
       </SubComponents>
     </Container>
