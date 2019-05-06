@@ -7,6 +7,8 @@ package Program;
 
 import com.fazecast.jSerialComm.SerialPort;
 import java.awt.Color;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +17,8 @@ import java.awt.Color;
 public class Login_page extends javax.swing.JPanel {
 
     private MySerialPort mySerialPort;
+    private boolean connectButtonPressed = false;
+    private String Login = "Login";
 
     /**
      * Creates new form Login_page
@@ -34,7 +38,7 @@ public class Login_page extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField_password = new javax.swing.JPasswordField(10);
         jButton_ConnectZybo = new javax.swing.JButton();
         ZYBO_connected = new javax.swing.JLabel();
         PortList = new javax.swing.JComboBox<>();
@@ -58,10 +62,10 @@ public class Login_page extends javax.swing.JPanel {
 
         jLabel3.setText("Password");
 
-        jTextField2.setText("tekst");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_password.setText("PASSWORD");
+        jTextField_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextField_passwordActionPerformed(evt);
             }
         });
 
@@ -122,7 +126,7 @@ public class Login_page extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                                    .addComponent(jTextField2))
+                                    .addComponent(jTextField_password))
                                 .addGap(86, 86, 86)
                                 .addComponent(jButton_login)))))
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -139,7 +143,7 @@ public class Login_page extends javax.swing.JPanel {
                     .addComponent(jButton_login))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -148,15 +152,17 @@ public class Login_page extends javax.swing.JPanel {
                     .addComponent(PortList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
+
+        jTextField_password.setActionCommand(Login);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jTextField_passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_passwordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jTextField_passwordActionPerformed
 
     private void jButton_ConnectZyboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectZyboActionPerformed
         if (mySerialPort == null) {
@@ -166,13 +172,20 @@ public class Login_page extends javax.swing.JPanel {
             jButton_ConnectZybo.setEnabled(false);
             int portNR = PortList.getSelectedIndex();
             Thread thread;
+            
+            //If the button was already pressed, there is no need to make another thread
+            if(connectButtonPressed){
+                return;
+            }
             thread = new Thread() {
                 @Override
                 public void run() {
+                    connectButtonPressed = true;
                     mySerialPort.forbindTilPort(portNR);
                     if (!jButton_ConnectZybo.isEnabled()) {
                         jButton_ConnectZybo.setEnabled(true);                        
                     }
+                    connectButtonPressed = false;
                 }
             };
             thread.start();
@@ -193,11 +206,29 @@ public class Login_page extends javax.swing.JPanel {
         if (ZYBO_connected.isEnabled()) {
             //We can login
             
+            // THIS CODE HAS BEEN TAKEN FROM: https://docs.oracle.com/javase/tutorial/uiswing/components/passwordfield.html
+            char[] input = jTextField_password.getText().toCharArray();
+            if (isPasswordCorrect(input)) {
+                JOptionPane.showMessageDialog(this,
+                    "Success! You typed the right password.");
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Invalid password. Try again.",
+                    "Error Message",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+
+            //Zero out the possible password, for security.
+            Arrays.fill(input, '0');
+            
+            //Release the lock, so the main thread can continue and show the next frame!
+            synchronized (this) {
+                mySerialPort.notify();
+            }
         }else{
             //We should wait for the ZYBO to be connected
             
         }
-
     }//GEN-LAST:event_jButton_loginActionPerformed
 
     private void PortListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PortListMousePressed
@@ -206,7 +237,7 @@ public class Login_page extends javax.swing.JPanel {
             System.out.println("mySerialPort er ikke defineret! Den giver null!");
             return;
         } else {
-            System.out.println("Jeg bliver kaldt!");
+            //System.out.println("Jeg bliver kaldt!");
             mySerialPort.updatePorts();
             PortList.removeAllItems();
             for (int i = 0; i < mySerialPort.ports.length; i++) {
@@ -225,7 +256,7 @@ public class Login_page extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField_password;
     // End of variables declaration//GEN-END:variables
 
     void ZYBOConnected() {
@@ -261,5 +292,26 @@ public class Login_page extends javax.swing.JPanel {
 
     void getmySerialPort(MySerialPort mySerialPort) {
         this.mySerialPort = mySerialPort;
+    }  
+    /**
+     * Checks the passed-in array against the correct password.
+     * After this method returns, you should invoke eraseArray
+     * on the passed-in array.
+     * THIS CODE HAS BEEN TAKEN FROM: https://docs.oracle.com/javase/tutorial/uiswing/components/passwordfield.html
+     */
+    private static boolean isPasswordCorrect(char[] input) {
+        boolean isCorrect = true;
+        char[] correctPassword = { 'b', 'u', 'g', 'a', 'b', 'o', 'o' };
+
+        if (input.length != correctPassword.length) {
+            isCorrect = false;
+        } else {
+            isCorrect = Arrays.equals (input, correctPassword);
+        }
+
+        //Zero out the password.
+        Arrays.fill(correctPassword,'0');
+
+        return isCorrect;
     }
 }

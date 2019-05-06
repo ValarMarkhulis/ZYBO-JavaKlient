@@ -6,22 +6,8 @@
 package Program;
 
 import com.fazecast.jSerialComm.SerialPort;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.InputStream;
-import java.io.OutputStream;
 import static Program.MySerialPort.ZYBO_port;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import java.awt.BorderLayout;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -55,8 +41,16 @@ public class Program {
                 mySerialPort.wait();
             }
         }
+        
         login_page.ZYBOConnected();
-
+        
+        System.out.println("Jeg er her og klar til, at teste det nye :) !");
+        //Wait for the login button to be pressed! This happens in the Login_page, when the "login" button is pressed and the
+        //lock on mySerialPort is released.
+        synchronized (mySerialPort) {
+            mySerialPort.wait();
+        }
+        
         Program_page program_page = new Program_page(mySerialPort);
 
         Thread thread;
