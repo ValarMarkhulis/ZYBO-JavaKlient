@@ -180,19 +180,27 @@ class MySerialPort {
             } // Run end
 
             private void processRecievedStringFromZYBO(String temp_string) {
-
-                if (temp_string.contains("Krypt følgende: \"")) {
-                    int index = temp_string.lastIndexOf("Krypt følgende: \"") + ("Krypt følgende: \"").length();
+                
+                if (temp_string.contains("Random tal er: ")) {
+                    int index = temp_string.lastIndexOf("Random tal er: ") + ("Random tal er: ").length();
                     //System.err.println("Jeg er kaldt! med index "+index);
-                    System.err.println(temp_string.substring(index, temp_string.length() - 1));
+                    //System.err.println(temp_string.substring(index, temp_string.length()));
+                    String returnString = temp_string.substring(index, temp_string.length());
+                    program_page.setReturnText(1, returnString);
+
+                    //lStartTime = System.currentTimeMillis();
+                } else if (temp_string.contains("Krypt folgende: \"")) {
+                    int index = temp_string.lastIndexOf("Krypt folgende: \"") + ("Krypt folgende: \"").length();
+                    //System.err.println("Jeg er kaldt! med index "+index);
+                    //System.err.println(temp_string.substring(index, temp_string.length() - 1));
                     String returnString = temp_string.substring(index, temp_string.length() - 1);
                     program_page.setReturnText(2, returnString);
 
                     //lStartTime = System.currentTimeMillis();
-                } else if (temp_string.contains("Dekrypt følgende: \"")) {
-                    int index = temp_string.lastIndexOf("Dekrypt følgende: \"") + ("Dekrypt følgende: \"").length();
-                    System.err.println("Jeg er kaldt! med index " + index);
-                    System.err.println(temp_string.substring(index, temp_string.length() - 1));
+                } else if (temp_string.contains("Dekrypt folgende: \"")) {
+                    int index = temp_string.lastIndexOf("Dekrypt folgende: \"") + ("Dekrypt folgende: \"").length();
+                    //System.err.println("Jeg er kaldt! med index " + index);
+                    //System.err.println(temp_string.substring(index, temp_string.length() - 1));
                     String returnString = temp_string.substring(index, temp_string.length() - 1);
                     program_page.setReturnText(3, returnString);
 
@@ -214,6 +222,8 @@ class MySerialPort {
                     } else {
                         System.err.println("Fandt hverken CPU eller HW i strengen :(");
                     }
+                }else{
+                    System.err.println("ingen streng matched");
                 }
             }
         };

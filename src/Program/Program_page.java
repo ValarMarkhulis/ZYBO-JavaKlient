@@ -97,6 +97,7 @@ public class Program_page extends javax.swing.JPanel {
         });
 
         jButton3_sendPredefiendText.setText("Send Kommando 3 til ZYBO");
+        jButton3_sendPredefiendText.setEnabled(false);
         jButton3_sendPredefiendText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3_sendPredefiendTextActionPerformed(evt);
@@ -122,6 +123,7 @@ public class Program_page extends javax.swing.JPanel {
         jLabel4.setText("Send tekst streng til kryptering:");
 
         jTextField_CMD3_text.setToolTipText("\"Tekst streng\"");
+        jTextField_CMD3_text.setEnabled(false);
         jTextField_CMD3_text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_CMD3_textActionPerformed(evt);

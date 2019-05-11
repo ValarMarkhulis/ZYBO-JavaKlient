@@ -138,6 +138,7 @@
             <Component class="javax.swing.JButton" name="jButton3_sendPredefiendText">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Send Kommando 3 til ZYBO"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3_sendPredefiendTextActionPerformed"/>
@@ -172,6 +173,7 @@
             <Component class="javax.swing.JTextField" name="jTextField_CMD3_text">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="&quot;Tekst streng&quot;"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_CMD3_textActionPerformed"/>
