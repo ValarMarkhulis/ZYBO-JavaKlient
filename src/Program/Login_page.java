@@ -19,6 +19,7 @@ public class Login_page extends javax.swing.JPanel {
     private MySerialPort mySerialPort;
     private boolean connectButtonPressed = false;
     private String Login = "Login";
+    private Object test;
 
     /**
      * Creates new form Login_page
@@ -62,7 +63,7 @@ public class Login_page extends javax.swing.JPanel {
 
         jLabel3.setText("Password");
 
-        jTextField_password.setText("PASSWORD");
+        jTextField_password.setText("bugaboo");
         jTextField_password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField_passwordActionPerformed(evt);
@@ -164,6 +165,9 @@ public class Login_page extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_passwordActionPerformed
 
+    /**
+     * The Connect button for ZYBO is pressed
+     */
     private void jButton_ConnectZyboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConnectZyboActionPerformed
         if (mySerialPort == null) {
             System.out.println("mySerialPort er ikke defineret! Den giver null!");
@@ -171,73 +175,75 @@ public class Login_page extends javax.swing.JPanel {
         } else {
             jButton_ConnectZybo.setEnabled(false);
             int portNR = PortList.getSelectedIndex();
-            Thread thread;
             
             //If the button was already pressed, there is no need to make another thread
-            if(connectButtonPressed){
+            if (connectButtonPressed) {
                 return;
             }
+
+            Thread thread;
             thread = new Thread() {
                 @Override
                 public void run() {
+                    //This thread will try to setup the com port
                     connectButtonPressed = true;
                     mySerialPort.forbindTilPort(portNR);
                     if (!jButton_ConnectZybo.isEnabled()) {
-                        jButton_ConnectZybo.setEnabled(true);                        
+                        jButton_ConnectZybo.setEnabled(true);
                     }
                     connectButtonPressed = false;
                 }
             };
             thread.start();
-            
-
         }
     }//GEN-LAST:event_jButton_ConnectZyboActionPerformed
 
     private void PortListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PortListActionPerformed
-        // TODO add your handling code here:
-
-
     }//GEN-LAST:event_PortListActionPerformed
 
+    /**
+     * The login button has been pressed
+     */
     private void jButton_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loginActionPerformed
 
         //Check if the ZYBO is connected first of all
         if (ZYBO_connected.isEnabled()) {
             //We can login
-            
+
             // THIS CODE HAS BEEN TAKEN FROM: https://docs.oracle.com/javase/tutorial/uiswing/components/passwordfield.html
             char[] input = jTextField_password.getText().toCharArray();
             if (isPasswordCorrect(input)) {
                 JOptionPane.showMessageDialog(this,
-                    "Success! You typed the right password.");
+                        "Success! You typed the right password.");
             } else {
                 JOptionPane.showMessageDialog(this,
-                    "Invalid password. Try again.",
-                    "Error Message",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Invalid password. Try again.",
+                        "Error Message",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
             //Zero out the possible password, for security.
             Arrays.fill(input, '0');
-            
+
             //Release the lock, so the main thread can continue and show the next frame!
-            synchronized (this) {
-                mySerialPort.notify();
+            synchronized (test) {
+                test.notify();
             }
-        }else{
+
+        } else {
             //We should wait for the ZYBO to be connected
-            
         }
     }//GEN-LAST:event_jButton_loginActionPerformed
 
+    /**
+     * When the user presses the portList, the GUI should update and add new COM ports which have been conneteced since last time
+     */
     private void PortListMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PortListMousePressed
-         // TODO add your handling code here:
+        // TODO add your handling code here:
         if (mySerialPort == null) {
-            System.out.println("mySerialPort er ikke defineret! Den giver null!");
+            System.err.println("mySerialPort er ikke defineret! Den giver null!");
             return;
         } else {
-            //System.out.println("Jeg bliver kaldt!");
             mySerialPort.updatePorts();
             PortList.removeAllItems();
             for (int i = 0; i < mySerialPort.ports.length; i++) {
@@ -259,15 +265,23 @@ public class Login_page extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField_password;
     // End of variables declaration//GEN-END:variables
 
-    void ZYBOConnected() {
+    /**
+     * This tells the gui, that there is a ZYBO connected at the moment, and the 'test' object is passed which the GUI will use for thread synchronizing/ telling main, when the user has succesfully logged in and the next frame "Program_page" can be shown
+     *
+     * @param The mutex which the main thread and GUI will use for thread synchronization
+     */
+    void ZYBOConnected(Object test) {
         jButton_ConnectZybo.setForeground(Color.GREEN);
         jButton_ConnectZybo.setEnabled(false);
         ZYBO_connected.setForeground(Color.GREEN);
         ZYBO_connected.setText("Status: Forbundet");
         PortList.setEnabled(false);
-
+        this.test = test;
     }
 
+    /**
+     * This tells the gui, that there is no ZYBO connected at the moment, and the user should now manually try to establish the connection
+     */
     void ZYBONOTConnected() {
         jButton_ConnectZybo.setForeground(Color.RED);
         jButton_ConnectZybo.setEnabled(true);
@@ -276,6 +290,9 @@ public class Login_page extends javax.swing.JPanel {
         PortList.setEnabled(true);
     }
 
+    /**
+     * This gives the Login_page the list of ports, which will be used for populating the PortList.
+     */
     void populateList(SerialPort[] ports) {
         Thread thread;
         thread = new Thread() {
@@ -290,27 +307,28 @@ public class Login_page extends javax.swing.JPanel {
 
     }
 
+    /**
+     * This gives the Login_page the object mySerialPort
+     */
     void getmySerialPort(MySerialPort mySerialPort) {
         this.mySerialPort = mySerialPort;
-    }  
+    }
+
     /**
-     * Checks the passed-in array against the correct password.
-     * After this method returns, you should invoke eraseArray
-     * on the passed-in array.
-     * THIS CODE HAS BEEN TAKEN FROM: https://docs.oracle.com/javase/tutorial/uiswing/components/passwordfield.html
+     * Checks the passed-in array against the correct password. After this method returns, you should invoke eraseArray on the passed-in array. THIS CODE HAS BEEN TAKEN FROM: https://docs.oracle.com/javase/tutorial/uiswing/components/passwordfield.html
      */
     private static boolean isPasswordCorrect(char[] input) {
         boolean isCorrect = true;
-        char[] correctPassword = { 'b', 'u', 'g', 'a', 'b', 'o', 'o' };
+        char[] correctPassword = {'b', 'u', 'g', 'a', 'b', 'o', 'o'};
 
         if (input.length != correctPassword.length) {
             isCorrect = false;
         } else {
-            isCorrect = Arrays.equals (input, correctPassword);
+            isCorrect = Arrays.equals(input, correctPassword);
         }
 
         //Zero out the password.
-        Arrays.fill(correctPassword,'0');
+        Arrays.fill(correctPassword, '0');
 
         return isCorrect;
     }

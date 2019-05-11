@@ -54,7 +54,7 @@ class MySerialPort {
                         break;
                     }
                 }
-*/
+                 */
 
                 String modtaget_besked = "";
                 while (in.available() != 0) {
@@ -64,14 +64,14 @@ class MySerialPort {
                     }
                     modtaget_besked = modtaget_besked.concat(karakter + "");
                 }
-                System.out.println("Beskeden var \"" + modtaget_besked.trim()+ "\".");
+                System.out.println("Beskeden var \"" + modtaget_besked.trim() + "\".");
 
                 if (modtaget_besked.trim().equals("hello from Zybo")) {
                     //We have found the correct port with a ZYBO board connected
                     ZYBO_port = port;
                     connected = true;
                     System.out.println("The port is found!");
-                }else{
+                } else {
                     System.out.println("The port was found, but the wrong message was recieved");
                 }
             } catch (Exception e) {
@@ -115,7 +115,7 @@ class MySerialPort {
                     break;
                 }
             }
-            */
+             */
 
             String modtaget_besked = "";
             while (in.available() != 0) {
@@ -145,6 +145,79 @@ class MySerialPort {
 
     void updatePorts() {
         ports = SerialPort.getCommPorts();
+    }
+
+    public static void start_recieverThread(Program_page program_page) {
+        Thread thread;
+        thread = new Thread() {
+            long lStartTime = 0;
+            long lEndTime = 0;
+
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        while (ZYBO_port.bytesAvailable() == 0) {
+                            Thread.sleep(20);
+                        }
+
+                        byte[] readBuffer = new byte[ZYBO_port.bytesAvailable()];
+                        int numRead = ZYBO_port.readBytes(readBuffer, readBuffer.length);
+                        System.out.println("Read " + numRead + " bytes.");
+                        String temp_string = new String(readBuffer);
+                        System.out.println("Modtaget: \"" + temp_string.trim() + "\"");
+
+                        //Process recieved message
+                        processRecievedStringFromZYBO(temp_string.trim());
+
+                        program_page.updateText(new String(readBuffer));
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } // Run end
+
+            private void processRecievedStringFromZYBO(String temp_string) {
+
+                if (temp_string.contains("Krypt følgende: \"")) {
+                    int index = temp_string.lastIndexOf("Krypt følgende: \"") + ("Krypt følgende: \"").length();
+                    //System.err.println("Jeg er kaldt! med index "+index);
+                    System.err.println(temp_string.substring(index, temp_string.length() - 1));
+                    String returnString = temp_string.substring(index, temp_string.length() - 1);
+                    program_page.setReturnText(2, returnString);
+
+                    //lStartTime = System.currentTimeMillis();
+                } else if (temp_string.contains("Dekrypt følgende: \"")) {
+                    int index = temp_string.lastIndexOf("Dekrypt følgende: \"") + ("Dekrypt følgende: \"").length();
+                    System.err.println("Jeg er kaldt! med index " + index);
+                    System.err.println(temp_string.substring(index, temp_string.length() - 1));
+                    String returnString = temp_string.substring(index, temp_string.length() - 1);
+                    program_page.setReturnText(3, returnString);
+
+                    //lStartTime = System.currentTimeMillis();
+                } else if (temp_string.contains("benchmark started")) {
+                    //System.err.println("Jeg er kaldt!");
+                    lStartTime = System.currentTimeMillis();
+                } else if (temp_string.contains("benchmark ended")) {
+                    //System.err.println("Jeg er kaldt2!");
+                    lEndTime = System.currentTimeMillis();
+                    long output = lEndTime - lStartTime;
+                    if (temp_string.contains("CPU")) {
+                        System.out.println("It took the CPU: " + output + " in milliseconds");
+                        program_page.addDataToChart(output, 1);
+                    } else if (temp_string.contains("HW")) {
+                        System.out.println("It took the Hardware: " + output + " in milliseconds");
+                        program_page.enableButtons("jButton_benchmark");
+                        program_page.addDataToChart(output, 2);
+                    } else {
+                        System.err.println("Fandt hverken CPU eller HW i strengen :(");
+                    }
+                }
+            }
+        };
+        thread.start();
     }
 
 }

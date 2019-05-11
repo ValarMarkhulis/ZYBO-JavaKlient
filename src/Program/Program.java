@@ -15,6 +15,11 @@ import javax.swing.JFrame;
  */
 public class Program {
 
+    /**
+     *
+     * @param args
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws InterruptedException {
         JFrame vindue = new JFrame("Program");
         Login_page login_page = new Login_page();
@@ -41,43 +46,18 @@ public class Program {
                 mySerialPort.wait();
             }
         }
-        
-        login_page.ZYBOConnected();
-        
-        System.out.println("Jeg er her og klar til, at teste det nye :) !");
+        Object test = new Object();
+        login_page.ZYBOConnected(test);
+
         //Wait for the login button to be pressed! This happens in the Login_page, when the "login" button is pressed and the
         //lock on mySerialPort is released.
-        synchronized (mySerialPort) {
-            mySerialPort.wait();
+        synchronized (test) {
+            test.wait();
         }
-        
+
         Program_page program_page = new Program_page(mySerialPort);
 
-        Thread thread;
-        thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        while (mySerialPort.ZYBO_port.bytesAvailable() == 0) {
-                            Thread.sleep(20);
-                        }
-
-                        byte[] readBuffer = new byte[mySerialPort.ZYBO_port.bytesAvailable()];
-                        int numRead = mySerialPort.ZYBO_port.readBytes(readBuffer, readBuffer.length);
-                        System.out.println("Read " + numRead + " bytes.");
-                        String temp_string = new String(readBuffer);
-                        System.out.println("Modtaget: \"" + temp_string + "\"");
-                        program_page.updateText(new String(readBuffer));
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
+        mySerialPort.start_recieverThread(program_page);
 
         //Do login
         System.out.println("Skifter vindue");

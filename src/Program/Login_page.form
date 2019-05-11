@@ -117,9 +117,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField_password">
       <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="&quot;PASSWORD&quot;" type="code"/>
-        </Property>
+        <Property name="text" type="java.lang.String" value="bugaboo"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_passwordActionPerformed"/>
